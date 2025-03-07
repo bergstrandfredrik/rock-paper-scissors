@@ -16,4 +16,12 @@ function getComputerChoice() {
   return choice[getRandomNumber(3)];
 }
 
-console.log(getComputerChoice());
+function getPlayerChoice() {
+  return prompt("What is your choice? rock, paper or scissors...");
+}
+
+let computerChoice = getComputerChoice();
+let playerChoice = getPlayerChoice();
+
+console.log(computerChoice);
+console.log(playerChoice);
