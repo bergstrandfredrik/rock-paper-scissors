@@ -40,12 +40,21 @@ function playRound(computerChoice, playerChoice) {
   console.log(`Computers choice and players choice: ${play}`);
   if (checkIfWinningPlay(play, playerWins)) {
     console.log("Player wins!");
+    playerScore++;
   } else if (checkIfWinningPlay(play, computerWins)) {
     console.log("Computer wins!");
+    computerScore++;
   } else {
     console.log("Draw....");
   }
   return;
 }
 
-playRound(getComputerChoice(), getPlayerChoice());
+for (let i = 1; i <= 5; i++) {
+  console.log(`Round ${i}`);
+  playRound(getComputerChoice(), getPlayerChoice());
+}
+
+console.log(
+  `Score after 5 rounds. Computer: ${computerScore} and Player: ${playerScore}`
+);
