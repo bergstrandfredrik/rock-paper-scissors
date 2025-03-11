@@ -13,8 +13,6 @@ const playerWins = [
   `${_PAPER} ${_SCISSORS}`,
   `${_SCISSORS} ${_ROCK}`,
 ];
-// const computerWins = ["paper rock", "scissors paper", "rock scissors"];
-// const playerWins = ["rock paper", "paper scissors", "scissors rock"];
 
 let playerScore = 0;
 let computerScore = 0;
