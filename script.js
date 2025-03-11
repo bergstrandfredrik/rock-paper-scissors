@@ -7,6 +7,7 @@ const playerWins = ["rock paper", "paper scissors", "scissors rock"];
 
 let playerScore = 0;
 let computerScore = 0;
+let gameRound = 0;
 
 document.addEventListener("click", (e) => {
   console.log(e.target.id);
@@ -28,13 +29,11 @@ document.addEventListener("click", (e) => {
 });
 
 function startGame() {
-  const gameTitle = document.querySelector("#game-title");
-  const gameScore = document.querySelector("#game-score");
   const startButton = document.querySelector("#start");
   const gameButtons = document.querySelectorAll(".game");
   startButton.style.display = "none";
-  gameTitle.textContent = "GAME: 1";
-  gameScore.textContent = "0 - 0";
+  changeGameRoundTitle(gameRound);
+  changeGameScoreTitle(computerScore, playerScore);
   gameButtons.forEach((btn) => (btn.style.display = "inline"));
 }
 
@@ -43,13 +42,8 @@ function getRandomNumber(max) {
 }
 
 function getComputerChoice() {
-  const choice = ["rock", "paper", "scissors"];
+  const choice = [_ROCK, _PAPER, _SCISSORS];
   return choice[getRandomNumber(3)];
-}
-
-function getPlayerChoice() {
-  let str = prompt("What is your choice? rock, paper or scissors...");
-  return str.toLowerCase();
 }
 
 function checkIfWinningPlay(play, arrOfWins) {
@@ -72,14 +66,20 @@ function playRound(computerChoice, playerChoice) {
   } else {
     console.log("Draw....");
   }
+
+  gameRound++;
+  changeGameRoundTitle(gameRound);
+  changeGameScoreTitle(computerScore, playerScore);
+
   return;
 }
 
-// for (let i = 1; i <= 5; i++) {
-//   console.log(`Round ${i}`);
-//   playRound(getComputerChoice(), getPlayerChoice());
-// }
+function changeGameRoundTitle(gameRound) {
+  const gameTitle = document.querySelector("#game-title");
+  gameTitle.textContent = `GAME ${gameRound}`;
+}
 
-console.log(
-  `Score after 5 rounds. Computer: ${computerScore} and Player: ${playerScore}`
-);
+function changeGameScoreTitle(computerScore, playerScore) {
+  const gameScore = document.querySelector("#game-score");
+  gameScore.textContent = `AI - YOU: ${computerScore} - ${playerScore}`;
+}
