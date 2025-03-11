@@ -1,17 +1,42 @@
-/* 
-psuodo code for this project.
-
-Get the computers choice ---- DONE
-Then the players choice ---- DONE
-now play the game and lets see who beat who. ----- DONE
-display the result and keep the score as long as the game is played.
-*/
+const _ROCK = "rock";
+const _PAPER = "paper";
+const _SCISSORS = "scissors";
 
 const computerWins = ["paper rock", "scissors paper", "rock scissors"];
 const playerWins = ["rock paper", "paper scissors", "scissors rock"];
 
 let playerScore = 0;
 let computerScore = 0;
+
+document.addEventListener("click", (e) => {
+  console.log(e.target.id);
+
+  switch (e.target.id) {
+    case "start":
+      startGame();
+      break;
+    case _ROCK:
+      playRound(getComputerChoice(), _ROCK);
+      break;
+    case _PAPER:
+      playRound(getComputerChoice(), _PAPER);
+      break;
+    case _SCISSORS:
+      playRound(getComputerChoice(), _SCISSORS);
+      break;
+  }
+});
+
+function startGame() {
+  const gameTitle = document.querySelector("#game-title");
+  const gameScore = document.querySelector("#game-score");
+  const startButton = document.querySelector("#start");
+  const gameButtons = document.querySelectorAll(".game");
+  startButton.style.display = "none";
+  gameTitle.textContent = "GAME: 1";
+  gameScore.textContent = "0 - 0";
+  gameButtons.forEach((btn) => (btn.style.display = "inline"));
+}
 
 function getRandomNumber(max) {
   return Math.floor(Math.random() * max);

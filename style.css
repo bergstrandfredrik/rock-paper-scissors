@@ -15,6 +15,10 @@
   gap: 1rem;
 }
 
+.game {
+  display: none;
+}
+
 .game-board,
 .score-board {
   border: solid 3px salmon;
