@@ -1,19 +1,29 @@
 const _ROCK = "rock";
 const _PAPER = "paper";
 const _SCISSORS = "scissors";
+const _NUMBER_OF_GAMES = 5;
 
-const computerWins = ["paper rock", "scissors paper", "rock scissors"];
-const playerWins = ["rock paper", "paper scissors", "scissors rock"];
+const computerWins = [
+  `${_PAPER} ${_ROCK}`,
+  `${_SCISSORS} ${_PAPER}`,
+  `${_ROCK} ${_SCISSORS}`,
+];
+const playerWins = [
+  `${_ROCK} ${_PAPER}`,
+  `${_PAPER} ${_SCISSORS}`,
+  `${_SCISSORS} ${_ROCK}`,
+];
+// const computerWins = ["paper rock", "scissors paper", "rock scissors"];
+// const playerWins = ["rock paper", "paper scissors", "scissors rock"];
 
 let playerScore = 0;
 let computerScore = 0;
 let gameRound = 0;
 
 document.addEventListener("click", (e) => {
-  console.log(e.target.id);
-
   switch (e.target.id) {
     case "start":
+      resetGame();
       startGame();
       break;
     case _ROCK:
@@ -28,13 +38,37 @@ document.addEventListener("click", (e) => {
   }
 });
 
-function startGame() {
-  const startButton = document.querySelector("#start");
-  const gameButtons = document.querySelectorAll(".game");
-  startButton.style.display = "none";
+function resetGame() {
+  gameRound = 0;
+  playerScore = 0;
+  computerScore = 0;
   changeGameRoundTitle(gameRound);
   changeGameScoreTitle(computerScore, playerScore);
-  gameButtons.forEach((btn) => (btn.style.display = "inline"));
+  showWinner(false);
+  document.querySelector("#play").textContent = "computer : player";
+}
+
+function startGame() {
+  toggleViewGameButtons(true);
+  changeGameRoundTitle(gameRound);
+  changeGameScoreTitle(computerScore, playerScore);
+  document.querySelector("#play").style.display = "inline";
+}
+
+function toggleViewGameButtons(show) {
+  const gameButtons = document.querySelectorAll(".game");
+  const startButton = document.querySelector("#start");
+
+  let showGameButtons = show ? "inline" : "none";
+  let showStartButton = !show ? "inline" : "none";
+
+  if (show) {
+    startButton.style.display = showStartButton;
+    gameButtons.forEach((btn) => (btn.style.display = showGameButtons));
+  } else {
+    startButton.style.display = showStartButton;
+    gameButtons.forEach((btn) => (btn.style.display = showGameButtons));
+  }
 }
 
 function getRandomNumber(max) {
@@ -54,23 +88,24 @@ function checkIfWinningPlay(play, arrOfWins) {
   }
   return false;
 }
+
 function playRound(computerChoice, playerChoice) {
   const play = `${computerChoice} ${playerChoice}`;
-  console.log(`Computers choice and players choice: ${play}`);
   if (checkIfWinningPlay(play, playerWins)) {
-    console.log("Player wins!");
     playerScore++;
   } else if (checkIfWinningPlay(play, computerWins)) {
-    console.log("Computer wins!");
     computerScore++;
-  } else {
-    console.log("Draw....");
   }
 
+  document.querySelector("#play").textContent = play;
   gameRound++;
   changeGameRoundTitle(gameRound);
   changeGameScoreTitle(computerScore, playerScore);
 
+  if (gameRound === _NUMBER_OF_GAMES) {
+    showWinner(true, computerScore, playerScore);
+    toggleViewGameButtons(false);
+  }
   return;
 }
 
@@ -82,4 +117,21 @@ function changeGameRoundTitle(gameRound) {
 function changeGameScoreTitle(computerScore, playerScore) {
   const gameScore = document.querySelector("#game-score");
   gameScore.textContent = `AI - YOU: ${computerScore} - ${playerScore}`;
+}
+
+function showWinner(displayView, computerScore = 0, playerScore = 0) {
+  const scoreBoard = document.querySelector(".score-board");
+  let display = displayView ? "inline" : "none";
+  if (!displayView) {
+    scoreBoard.style.display = display;
+    return;
+  }
+
+  scoreBoard.style.display = display;
+  const h3 = document.querySelector(".winner");
+  let winner = computerScore < playerScore ? "Player!" : "Computer!";
+  if (computerScore === playerScore) {
+    winner = "DRAW...... boring...!";
+  }
+  h3.textContent = winner;
 }

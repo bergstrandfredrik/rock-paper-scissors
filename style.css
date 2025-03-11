@@ -40,6 +40,10 @@
   margin-top: 50px;
 }
 
+#play {
+  display: none;
+}
+
 .score-board {
   display: none;
   height: 200px;
